@@ -159,6 +159,7 @@ const cart = new Cart();
 const showcase = new Showcase(cart);
 //const $showcase = document.querySelector('.goods-list');
 showcase.fetchGoods();
+let productInCart = 0;
 // const $goodsList = document.querySelector('.goods-list');
 // const renderGoodsItem = ({
 //   title,
@@ -184,7 +185,6 @@ const draw = new drawShowcaseAll(showcase);
 draw.drawShowcase();
 
 const buttonEl = document.querySelector('.goods-list');
-
 buttonEl.addEventListener('click', event => {
   const btn = event.target;
   const btns = document.querySelectorAll('.addToCart');
@@ -196,7 +196,7 @@ buttonEl.addEventListener('click', event => {
       showcase.addToCart(i + 1);
     }
   }
-
+  document.querySelector('.basketCount').textContent = ++productInCart;
   // btns.forEach(el => {
   //   showcase.addToCart(el[0]);
   //})
@@ -231,8 +231,8 @@ document.querySelector('.cartIcon').addEventListener('click', event => {
     //показать окно корзины
     document.querySelector('.popupBasket').style.display = "block";
     //вывести всё содержимое корзины в окно
-    // for (let el of products) {
-    //   basketProductList.insertAdjacentHTML('afterbegin', el.getProductMarkup());
+    // for (let el of cart.list) {
+    //   basketProductList.insertAdjacentHTML('afterbegin', el);
     // }
     //вывести общую стоимость покупок
     //document.querySelector('.basketTotalValue').textContent = sum;
