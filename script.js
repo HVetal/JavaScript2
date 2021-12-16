@@ -177,7 +177,7 @@ showcase.fetchGoods();
 // renderGoodsList(showcase.list);
 // showcase.addToCart(1);
 // showcase.addToCart(1);
-// showcase.addToCart(1);
+// showcase.addToCart(2);
 // showcase.addToCart(3);
 // cart.remove(1);
 const draw = new drawShowcaseAll(showcase);
@@ -191,9 +191,15 @@ buttonEl.addEventListener('click', event => {
   if (btn.tagName !== "BUTTON") {
     return;
   }
-btns.forEach(el => {
-  showcase.addToCart(el.getgoodid());
-})
+  for (i = 0; i < btns.length; i++) {
+    if (event.target === btns[i]) {
+      showcase.addToCart(i + 1);
+    }
+  }
+
+  // btns.forEach(el => {
+  //   showcase.addToCart(el[0]);
+  //})
 })
 // const buttonAddToCart = document.querySelector('.good-list');
 // for (i = 0; i < buttonAddToCart.length; i++) {
