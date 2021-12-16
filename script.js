@@ -128,52 +128,107 @@ class Showcase {
     }
   }
 }
+// Класс отрисовки всей витрины
+class drawShowcaseAll {
+  constructor(showcase) {
+    this.list = showcase.list;
+  }
+  drawShowcase() {
+    let listHtml = '';
+    this.list.forEach(list => {
+      const goodItem = new Draw(list.title, list.price);
+      listHtml += goodItem.drawShowcaseEl();
+    });
+    document.querySelector('.goods-list').innerHTML = listHtml;
+  }
+}
 
+// Класс отрисовки одного товара витрины
 class Draw {
   constructor(title, price) {
     this.title = title;
     this.price = price;
   }
 
-  drawShowcase() {
-    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p></div>`;
+  drawShowcaseEl() {
+    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button></div>`;
   }
 }
-
-
+/* <button class="addToCart"><img src="images/cart.svg" alt="">Add to Cart</button> */
 const cart = new Cart();
 const showcase = new Showcase(cart);
-const $showcase = document.querySelector('.goods-list');
+//const $showcase = document.querySelector('.goods-list');
 showcase.fetchGoods();
-const $goodsList = document.querySelector('.goods-list');
-const renderGoodsItem = ({
-  title,
-  price
-}) => {
-  return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-};
-
-const renderGoodsList = (list) => {
-  let goodsList = list.map(
-    (item) => {
-      return renderGoodsItem(item)
-    }
-  ).join('');
-
-  $goodsList.insertAdjacentHTML('beforeend', goodsList);
-}
-
-renderGoodsList(showcase.list);
-
-
-
-showcase.addToCart(1);
-showcase.addToCart(1);
-showcase.addToCart(1);
-showcase.addToCart(3);
-
-cart.remove(1);
-const draw = new Draw(showcase);
+// const $goodsList = document.querySelector('.goods-list');
+// const renderGoodsItem = ({
+//   title,
+//   price
+// }) => {
+//   return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
+// };
+// const renderGoodsList = (list) => {
+//   let goodsList = list.map(
+//     (item) => {
+//       return renderGoodsItem(item)
+//     }
+//   ).join('');
+//   $goodsList.insertAdjacentHTML('beforeend', goodsList);
+// }
+// renderGoodsList(showcase.list);
+// showcase.addToCart(1);
+// showcase.addToCart(1);
+// showcase.addToCart(1);
+// showcase.addToCart(3);
+// cart.remove(1);
+const draw = new drawShowcaseAll(showcase);
 draw.drawShowcase();
 
+const buttonEl = document.querySelector('.goods-list');
+
+buttonEl.addEventListener('click', event => {
+  const btn = event.target;
+  const btns = document.querySelectorAll('.addToCart');
+  if (btn.tagName !== "BUTTON") {
+    return;
+  }
+btns.forEach(el => {
+  showcase.addToCart(el.getgoodid());
+})
+})
+// const buttonAddToCart = document.querySelector('.good-list');
+// for (i = 0; i < buttonAddToCart.length; i++) {
+//   buttonAddToCart[i].addEventListener('click', event => {
+//     if (event.target.classList.contains('addToCart')) {
+//       return;
+//     } else {
+//       showcase.addToCart(i);
+//     }
+//   })
+// }
+
+
+
 console.log(showcase, cart)
+
+
+//выбираем div, куда будем выводить содержимое корзины
+const basketProductList = document.querySelector('.basketProductList');
+// при клике по корзине
+document.querySelector('.cartIcon').addEventListener('click', event => {
+  //если окно корзины видно на экране
+  if (document.querySelector('.popupBasket').style.display === "block") {
+    //то убрать его
+    document.querySelector('.popupBasket').style.display = "none";
+  } else { //иначе, если окно корзины было скрыто
+    // очистить, что выводилось в предыдущий раз
+    basketProductList.innerHTML = ' ';
+    //показать окно корзины
+    document.querySelector('.popupBasket').style.display = "block";
+    //вывести всё содержимое корзины в окно
+    // for (let el of products) {
+    //   basketProductList.insertAdjacentHTML('afterbegin', el.getProductMarkup());
+    // }
+    //вывести общую стоимость покупок
+    //document.querySelector('.basketTotalValue').textContent = sum;
+  }
+});
