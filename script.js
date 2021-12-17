@@ -154,6 +154,36 @@ class Draw {
     return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button></div>`;
   }
 }
+
+// Класс отрисовки корзины
+class drawCartAll {
+  constructor(cart) {
+    this.list = cart.list;
+    // this.price = price;
+    // this.count = getCount();
+  }
+  drawCart() {
+    let listHtml = '';
+    this.list.forEach(list => {
+      const goodItem = new Draw(list.title, list.price);
+      listHtml += goodItem.drawCartEl();
+    });
+    document.querySelector('.basketProductList').innerHTML = listHtml;
+  }
+}
+// Класс отрисовки элемента корзины
+
+class DrawCartOne {
+  constructor(title, price) {
+    this.title = title;
+    this.price = price;
+//    this.count = getCount();
+  }
+  drawCartEl() {
+    return `<div class="ProductMarkup"><div>${this.title}</div><div>${this.price}</div></div>`;
+  }
+}
+
 /* <button class="addToCart"><img src="images/cart.svg" alt="">Add to Cart</button> */
 const cart = new Cart();
 const showcase = new Showcase(cart);
@@ -193,13 +223,13 @@ buttonEl.addEventListener('click', event => {
   }
   for (i = 0; i < btns.length; i++) {
     if (event.target === btns[i]) {
-      showcase.addToCart(i + 1);
+      showcase.addToCart(showcase.list[i].getId());
     }
   }
-  document.querySelector('.basketCount').textContent = ++productInCart;
+   document.querySelector('.basketCount').textContent = ++productInCart;
   // btns.forEach(el => {
-  //   showcase.addToCart(el[0]);
-  //})
+  //   showcase.addToCart(showcase.el.getId());
+  // })
 })
 // const buttonAddToCart = document.querySelector('.good-list');
 // for (i = 0; i < buttonAddToCart.length; i++) {
@@ -211,11 +241,7 @@ buttonEl.addEventListener('click', event => {
 //     }
 //   })
 // }
-
-
-
 console.log(showcase, cart)
-
 
 //выбираем div, куда будем выводить содержимое корзины
 const basketProductList = document.querySelector('.basketProductList');
@@ -230,6 +256,8 @@ document.querySelector('.cartIcon').addEventListener('click', event => {
     basketProductList.innerHTML = ' ';
     //показать окно корзины
     document.querySelector('.popupBasket').style.display = "block";
+    const drawCart = new drawCartAll(cart);
+    draw.drawShowcase();
     //вывести всё содержимое корзины в окно
     // for (let el of cart.list) {
     //   basketProductList.insertAdjacentHTML('afterbegin', el);
