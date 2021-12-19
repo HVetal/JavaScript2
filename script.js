@@ -77,7 +77,6 @@ class Cart {
     } else {
       this.list.push(new GoodStack(good))
     }
-
   }
 
   remove(id) {
@@ -90,7 +89,6 @@ class Cart {
         this.list.splice(idx, 1)
       }
     }
-
   }
 }
 // Функция-конструктор витрины
@@ -159,52 +157,36 @@ class Draw {
 class drawCartAll {
   constructor(cart) {
     this.list = cart.list;
-    // this.price = price;
-    // this.count = getCount();
   }
   drawCart() {
     let listHtml = '';
+    sum = 0;
     this.list.forEach(list => {
-      const goodItem = new Draw(list.title, list.price);
+      const goodItem = new DrawCartOne(list.good.getTitle(), list.getCount(), list.good.getPrice());
+      sum += list.getCount() * list.good.getPrice();
       listHtml += goodItem.drawCartEl();
     });
     document.querySelector('.basketProductList').innerHTML = listHtml;
   }
 }
 // Класс отрисовки элемента корзины
-
 class DrawCartOne {
-  constructor(title, price) {
+  constructor(title, count, price) {
     this.title = title;
+    this.count = count;
     this.price = price;
-//    this.count = getCount();
   }
   drawCartEl() {
-    return `<div class="ProductMarkup"><div>${this.title}</div><div>${this.price}</div></div>`;
+    return `<div class="ProductMarkup"><div>${this.title}</div><div>${this.count}</div><div>${this.price}</div><div>${this.price * this.count}</div></div>`;
   }
 }
 
-/* <button class="addToCart"><img src="images/cart.svg" alt="">Add to Cart</button> */
 const cart = new Cart();
 const showcase = new Showcase(cart);
-//const $showcase = document.querySelector('.goods-list');
+let sum = 0;
 showcase.fetchGoods();
 let productInCart = 0;
-// const $goodsList = document.querySelector('.goods-list');
-// const renderGoodsItem = ({
-//   title,
-//   price
-// }) => {
-//   return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-// };
-// const renderGoodsList = (list) => {
-//   let goodsList = list.map(
-//     (item) => {
-//       return renderGoodsItem(item)
-//     }
-//   ).join('');
-//   $goodsList.insertAdjacentHTML('beforeend', goodsList);
-// }
+
 // renderGoodsList(showcase.list);
 // showcase.addToCart(1);
 // showcase.addToCart(1);
@@ -226,22 +208,10 @@ buttonEl.addEventListener('click', event => {
       showcase.addToCart(showcase.list[i].getId());
     }
   }
-   document.querySelector('.basketCount').textContent = ++productInCart;
-  // btns.forEach(el => {
-  //   showcase.addToCart(showcase.el.getId());
-  // })
+  document.querySelector('.basketCount').textContent = ++productInCart;
 })
-// const buttonAddToCart = document.querySelector('.good-list');
-// for (i = 0; i < buttonAddToCart.length; i++) {
-//   buttonAddToCart[i].addEventListener('click', event => {
-//     if (event.target.classList.contains('addToCart')) {
-//       return;
-//     } else {
-//       showcase.addToCart(i);
-//     }
-//   })
-// }
-console.log(showcase, cart)
+
+//console.log(showcase, cart)
 
 //выбираем div, куда будем выводить содержимое корзины
 const basketProductList = document.querySelector('.basketProductList');
@@ -257,12 +227,8 @@ document.querySelector('.cartIcon').addEventListener('click', event => {
     //показать окно корзины
     document.querySelector('.popupBasket').style.display = "block";
     const drawCart = new drawCartAll(cart);
-    draw.drawShowcase();
-    //вывести всё содержимое корзины в окно
-    // for (let el of cart.list) {
-    //   basketProductList.insertAdjacentHTML('afterbegin', el);
-    // }
+    drawCart.drawCart();
     //вывести общую стоимость покупок
-    //document.querySelector('.basketTotalValue').textContent = sum;
+    document.querySelector('.basketTotalValue').textContent = sum;
   }
 });
