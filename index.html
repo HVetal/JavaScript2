@@ -6,7 +6,27 @@
 </head>
 <body>
   <header>
-    <button class="cart-button" type="button">Корзина</button>
+    <!-- <button class="cart-button" type="button">Корзина</button> -->
+    <div class="rightHeader">
+      <span class="cartIconWrap">
+          <img class="cartIcon" src="images/cart.png" alt="">
+          <span class='basketCount'>0</span>
+      </span>
+  </div>
+
+    <div class="popupBasket">
+      <div class="ProductMarkup basketHeader">
+          <div>Название товара</div>
+          <div>Количество</div>
+          <div>Цена за шт.</div>
+          <div>Итого</div>
+      </div>
+      <div class="basketProductList"></div>
+      <div class="basketTotal">
+          Товаров в корзине на сумму:
+          $<span class="basketTotalValue">0</span>
+      </div>
+  </div>
   </header>
   <main>
     
