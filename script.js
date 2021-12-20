@@ -149,7 +149,7 @@ class Draw {
   }
 
   drawShowcaseEl() {
-    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button></div>`;
+    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button><button class="deleteFromCart">Delete from Cart</button></div>`;
   }
 }
 
@@ -196,6 +196,27 @@ let productInCart = 0;
 const draw = new drawShowcaseAll(showcase);
 draw.drawShowcase();
 
+const delbtns = document.querySelectorAll('.deleteFromCart');
+for (i = 0; i < delbtns.length; i++) {
+  delbtns[i].classList.add("unvisible");
+}
+
+const buttonDEl = document.querySelector('.goods-list');
+buttonDEl.addEventListener('click', event => {
+  const btn = event.target;
+  //const delbtns = document.querySelectorAll('.deleteFromCart');
+  if (btn.tagName !== "BUTTON") {
+    return;
+  }
+  for (i = 0; i < delbtns.length; i++) {
+    if (event.target === delbtns[i]) {
+      cart.remove(showcase.list[i].getId());
+      //document.querySelector('.deleteFromCart').classList.add("visible");
+    }
+  }
+  document.querySelector('.basketCount').textContent = productInCart--;
+})
+
 const buttonEl = document.querySelector('.goods-list');
 buttonEl.addEventListener('click', event => {
   const btn = event.target;
@@ -206,6 +227,8 @@ buttonEl.addEventListener('click', event => {
   for (i = 0; i < btns.length; i++) {
     if (event.target === btns[i]) {
       showcase.addToCart(showcase.list[i].getId());
+      delbtns[i].classList.add("visible");
+      //document.querySelector('.deleteFromCart').classList.add("visible");
     }
   }
   document.querySelector('.basketCount').textContent = ++productInCart;
