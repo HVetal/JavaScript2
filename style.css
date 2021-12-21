@@ -99,3 +99,16 @@ header {
     font-weight: bold;
     text-align: right;
 }
+
+.deleteFromCart {
+    margin-top: 10px;
+    /* display: none; */
+}
+
+.unvisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}

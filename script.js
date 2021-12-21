@@ -1,3 +1,4 @@
+"use strict"
 // 
 function getCounter() {
   let last = 0;
@@ -149,7 +150,7 @@ class Draw {
   }
 
   drawShowcaseEl() {
-    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button></div>`;
+    return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button><button class="deleteFromCart">Delete from Cart</button></div>`;
   }
 }
 
@@ -195,21 +196,63 @@ let productInCart = 0;
 // cart.remove(1);
 const draw = new drawShowcaseAll(showcase);
 draw.drawShowcase();
+// Показали кнопки все удаления
+const delbtns = document.querySelectorAll('.deleteFromCart');
+for (let i = 0; i < delbtns.length; i++) {
+  delbtns[i].classList.add("unvisible");
+}
 
-const buttonEl = document.querySelector('.goods-list');
-buttonEl.addEventListener('click', event => {
+const buttonDEl = document.querySelector('.goods-list');
+buttonDEl.addEventListener('click', event => {
   const btn = event.target;
-  const btns = document.querySelectorAll('.addToCart');
+  //const delbtns = document.querySelectorAll('.deleteFromCart');
   if (btn.tagName !== "BUTTON") {
     return;
+  } else if (event.target.classList.contains('deleteFromCart')) {
+  for (let i = 0; i < delbtns.length; i++) {
+    if ((event.target === delbtns[i]) && (showcase.list[i].getId())) {
+      for (let j = 0; j < cart.list.length; j++) {
+        if ((event.target === delbtns[i]) && (cart.list[j].count === 1)) {
+          delbtns[i].classList.add("unvisible");
+        }
+      }
+      cart.remove(showcase.list[i].getId());
+      //document.querySelector('.deleteFromCart').classList.add("visible");
+      document.querySelector('.basketCount').textContent = --productInCart;
+    }
   }
-  for (i = 0; i < btns.length; i++) {
+  
+} else if (event.target.classList.contains('addToCart')) {
+  const btn = event.target;
+  const btns = document.querySelectorAll('.addToCart');
+  for (let i = 0; i < btns.length; i++) {
     if (event.target === btns[i]) {
       showcase.addToCart(showcase.list[i].getId());
+      delbtns[i].classList.remove("unvisible");
+      //document.querySelector('.deleteFromCart').classList.add("visible");
     }
   }
   document.querySelector('.basketCount').textContent = ++productInCart;
+}
+  
 })
+
+// const buttonEl = document.querySelector('.goods-list');
+// buttonEl.addEventListener('click', event => {
+//   const btn = event.target;
+//   const btns = document.querySelectorAll('.addToCart');
+//   if (btn.tagName !== "BUTTON") {
+//     return;
+//   }
+//   for (i = 0; i < btns.length; i++) {
+//     if (event.target === btns[i]) {
+//       showcase.addToCart(showcase.list[i].getId());
+//       delbtns[i].classList.add("visible");
+      //document.querySelector('.deleteFromCart').classList.add("visible");
+//     }
+//   }
+//   document.querySelector('.basketCount').textContent = ++productInCart;
+// })
 
 //console.log(showcase, cart)
 
