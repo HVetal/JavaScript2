@@ -1,3 +1,4 @@
+"use strict"
 // 
 function getCounter() {
   let last = 0;
@@ -195,9 +196,9 @@ let productInCart = 0;
 // cart.remove(1);
 const draw = new drawShowcaseAll(showcase);
 draw.drawShowcase();
-
+// Показали кнопки все удаления
 const delbtns = document.querySelectorAll('.deleteFromCart');
-for (i = 0; i < delbtns.length; i++) {
+for (let i = 0; i < delbtns.length; i++) {
   delbtns[i].classList.add("unvisible");
 }
 
@@ -207,32 +208,51 @@ buttonDEl.addEventListener('click', event => {
   //const delbtns = document.querySelectorAll('.deleteFromCart');
   if (btn.tagName !== "BUTTON") {
     return;
-  }
-  for (i = 0; i < delbtns.length; i++) {
-    if (event.target === delbtns[i]) {
+  } else if (event.target.classList.contains('deleteFromCart')) {
+  for (let i = 0; i < delbtns.length; i++) {
+    if ((event.target === delbtns[i]) && (showcase.list[i].getId())) {
+      for (let j = 0; j < cart.list.length; j++) {
+        if ((event.target === delbtns[i]) && (cart.list[j].count === 1)) {
+          delbtns[i].classList.add("unvisible");
+        }
+      }
       cart.remove(showcase.list[i].getId());
       //document.querySelector('.deleteFromCart').classList.add("visible");
+      document.querySelector('.basketCount').textContent = --productInCart;
     }
   }
-  document.querySelector('.basketCount').textContent = productInCart--;
-})
-
-const buttonEl = document.querySelector('.goods-list');
-buttonEl.addEventListener('click', event => {
+  
+} else if (event.target.classList.contains('addToCart')) {
   const btn = event.target;
   const btns = document.querySelectorAll('.addToCart');
-  if (btn.tagName !== "BUTTON") {
-    return;
-  }
-  for (i = 0; i < btns.length; i++) {
+  for (let i = 0; i < btns.length; i++) {
     if (event.target === btns[i]) {
       showcase.addToCart(showcase.list[i].getId());
-      delbtns[i].classList.add("visible");
+      delbtns[i].classList.remove("unvisible");
       //document.querySelector('.deleteFromCart').classList.add("visible");
     }
   }
   document.querySelector('.basketCount').textContent = ++productInCart;
+}
+  
 })
+
+// const buttonEl = document.querySelector('.goods-list');
+// buttonEl.addEventListener('click', event => {
+//   const btn = event.target;
+//   const btns = document.querySelectorAll('.addToCart');
+//   if (btn.tagName !== "BUTTON") {
+//     return;
+//   }
+//   for (i = 0; i < btns.length; i++) {
+//     if (event.target === btns[i]) {
+//       showcase.addToCart(showcase.list[i].getId());
+//       delbtns[i].classList.add("visible");
+      //document.querySelector('.deleteFromCart').classList.add("visible");
+//     }
+//   }
+//   document.querySelector('.basketCount').textContent = ++productInCart;
+// })
 
 //console.log(showcase, cart)
 
