@@ -1,5 +1,42 @@
 "use strict"
 // 
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/';
+
+function send(onError, onSuccess, url, method = 'GET', data = '', headers = {}, timeout = 60000) {
+ 
+  let xhr;
+
+  if (window.XMLHttpRequest) {
+    // Chrome, Mozilla, Opera, Safari
+    xhr = new XMLHttpRequest();
+  } else if (window.ActiveXObject) { 
+    // Internet Explorer
+    xhr = new ActiveXObject("Microsoft.XMLHTTP");
+  }
+
+  for([key, value] of Object.entries(headers)) {
+    xhr.setRequestHeader(key, value)
+  }
+
+  xhr.timeout = timeout; 
+
+  xhr.ontimeout = onError;
+
+  xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+      if(xhr.status < 400) {
+        onSuccess(xhr.responseText)
+      } else if (xhr.status >= 400) {
+        onError(xhr.status)
+      }
+    }
+  }
+
+  xhr.open(method, url, true);
+
+  xhr.send(data);
+}
+
 function getCounter() {
   let last = 0;
 
@@ -99,24 +136,21 @@ class Showcase {
     this.cart = cart;
   }
 
+  _onSuccess(response) {
+    const data = JSON.parse(response)
+    data.forEach(product => {
+      this.list.push(
+        new Good({id: product.id_product, title: product.product_name, price: product.price})
+      )
+    });
+  }
+
+  _onError(err) {
+    console.log(err);
+  }
+
   fetchGoods() {
-    this.list = [
-      new Good({
-        id: 1,
-        title: 'Футболка',
-        price: 140
-      }),
-      new Good({
-        id: 2,
-        title: 'Брюки',
-        price: 320
-      }),
-      new Good({
-        id: 3,
-        title: 'Галстук',
-        price: 24
-      })
-    ]
+    send(this._onError, this._onSuccess.bind(this), `${API_URL}catalogData.json`);
   }
 
   addToCart(id) {
@@ -184,49 +218,59 @@ class DrawCartOne {
 
 const cart = new Cart();
 const showcase = new Showcase(cart);
-let sum = 0;
 showcase.fetchGoods();
 let productInCart = 0;
-
+let sum = 0;
 // renderGoodsList(showcase.list);
 // showcase.addToCart(1);
 // showcase.addToCart(1);
 // showcase.addToCart(2);
 // showcase.addToCart(3);
 // cart.remove(1);
+setTimeout(() => {
 const draw = new drawShowcaseAll(showcase);
 draw.drawShowcase();
-// Показали кнопки все удаления
+//console.log(showcase, cart)
+
+
+
+// Убрали все кнопки удаления товара из корзины
 const delbtns = document.querySelectorAll('.deleteFromCart');
 for (let i = 0; i < delbtns.length; i++) {
   delbtns[i].classList.add("unvisible");
 }
 
-const buttonDEl = document.querySelector('.goods-list');
-buttonDEl.addEventListener('click', event => {
+const buttonEl = document.querySelector('.goods-list');
+buttonEl.addEventListener('click', event => {
   const btn = event.target;
   //const delbtns = document.querySelectorAll('.deleteFromCart');
   if (btn.tagName !== "BUTTON") {
     return;
-  } else if (event.target.classList.contains('deleteFromCart')) {
+  } else if (btn.classList.contains('deleteFromCart')) {
   for (let i = 0; i < delbtns.length; i++) {
-    if ((event.target === delbtns[i]) && (showcase.list[i].getId())) {
+    // если мы нажали именно на эту кнопку удаления товара
+    if ((btn === delbtns[i])) { // && (showcase.list[i].getId())
+      // если это последний такой товар, то убираем кнопку
       for (let j = 0; j < cart.list.length; j++) {
-        if ((event.target === delbtns[i]) && (cart.list[j].count === 1)) {
+        if ((cart.list[j].count === 1) && (cart.list.length === 1)) {
+          delbtns[i].classList.add("unvisible");
+          //break;
+        } else if ((cart.list[j].count === 1) && (delbtns[j] === delbtns[i]) && (cart.list.length !== 1)) {
           delbtns[i].classList.add("unvisible");
         }
       }
+
       cart.remove(showcase.list[i].getId());
       //document.querySelector('.deleteFromCart').classList.add("visible");
       document.querySelector('.basketCount').textContent = --productInCart;
     }
   }
   
-} else if (event.target.classList.contains('addToCart')) {
-  const btn = event.target;
+} else if (btn.classList.contains('addToCart')) {
+//  const btn = event.target;
   const btns = document.querySelectorAll('.addToCart');
   for (let i = 0; i < btns.length; i++) {
-    if (event.target === btns[i]) {
+    if (btn === btns[i]) {
       showcase.addToCart(showcase.list[i].getId());
       delbtns[i].classList.remove("unvisible");
       //document.querySelector('.deleteFromCart').classList.add("visible");
@@ -275,3 +319,4 @@ document.querySelector('.cartIcon').addEventListener('click', event => {
     document.querySelector('.basketTotalValue').textContent = sum;
   }
 });
+}, 1000)
