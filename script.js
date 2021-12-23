@@ -104,17 +104,26 @@ class GoodStack {
 //Функция-конструктор корзины
 class Cart {
   constructor() {
-    this.list = []
+    this.list = [];
   }
 
   _onSuccess(response) {
-    console.log(response);
     const data = JSON.parse(response);
-    console.log(data);
-    data.contents.forEach(product => {
+    let {
+      amount,
+      contents,
+      countGoods
+    } = data;
+    productInCart = countGoods;
+    document.querySelector('.basketCount').textContent = productInCart;
+    sum = amount;
+    contents.forEach(product => {
       this.list.push(
         new GoodStack({
-          good: product.contents,
+          id: product.id_product,
+          title: product.product_name,
+          price: product.price,
+          count: product.quantity
         })
       );
     });
@@ -125,9 +134,9 @@ class Cart {
   }
 
   fetchGoods() {
-    send(this._onError, this._onSuccess, `${API_URL}getBasket.json`)
+    send(this._onError, this._onSuccess.bind(this), `${API_URL}getBasket.json`)
   }
-  // send((err) => console.log(err), (response) => console.log(response), `${API_URL}getBasket.json`);
+
   add(good) {
     const idx = this.list.findIndex((stack) => stack.getGoodId() == good.id)
 
@@ -221,10 +230,10 @@ class drawCartAll {
   }
   drawCart() {
     let listHtml = '';
-    sum = 0;
+    //sum = 0;
     this.list.forEach(list => {
-      const goodItem = new DrawCartOne(list.good.getTitle(), list.getCount(), list.good.getPrice());
-      sum += list.getCount() * list.good.getPrice();
+      const goodItem = new DrawCartOne(list.good.title, list.count, list.good.price);
+      //sum += list.count * list.good.price;
       listHtml += goodItem.drawCartEl();
     });
     document.querySelector('.basketProductList').innerHTML = listHtml;
@@ -245,8 +254,8 @@ class DrawCartOne {
 const cart = new Cart();
 const showcase = new Showcase(cart);
 showcase.fetchGoods();
-let productInCart = 0;
-let sum = 0;
+let productInCart;
+let sum;
 // renderGoodsList(showcase.list);
 // showcase.addToCart(1);
 // showcase.addToCart(1);
@@ -269,13 +278,13 @@ setTimeout(() => {
   const buttonEl = document.querySelector('.goods-list');
   buttonEl.addEventListener('click', event => {
     const btn = event.target;
-    //const delbtns = document.querySelectorAll('.deleteFromCart');
+
     if (btn.tagName !== "BUTTON") {
       return;
     } else if (btn.classList.contains('deleteFromCart')) {
       for (let i = 0; i < delbtns.length; i++) {
         // если мы нажали именно на эту кнопку удаления товара
-        if ((btn === delbtns[i])) { // && (showcase.list[i].getId())
+        if ((btn === delbtns[i])) {
           // если это последний такой товар, то убираем кнопку
           for (let j = 0; j < cart.list.length; j++) {
             if ((cart.list[j].count === 1) && (cart.list.length === 1)) {
@@ -287,44 +296,22 @@ setTimeout(() => {
           }
 
           cart.remove(showcase.list[i].getId());
-          //document.querySelector('.deleteFromCart').classList.add("visible");
           document.querySelector('.basketCount').textContent = --productInCart;
         }
       }
 
     } else if (btn.classList.contains('addToCart')) {
-      //  const btn = event.target;
       const btns = document.querySelectorAll('.addToCart');
       for (let i = 0; i < btns.length; i++) {
         if (btn === btns[i]) {
           showcase.addToCart(showcase.list[i].getId());
           delbtns[i].classList.remove("unvisible");
-          //document.querySelector('.deleteFromCart').classList.add("visible");
         }
       }
       document.querySelector('.basketCount').textContent = ++productInCart;
     }
 
   })
-
-  // const buttonEl = document.querySelector('.goods-list');
-  // buttonEl.addEventListener('click', event => {
-  //   const btn = event.target;
-  //   const btns = document.querySelectorAll('.addToCart');
-  //   if (btn.tagName !== "BUTTON") {
-  //     return;
-  //   }
-  //   for (i = 0; i < btns.length; i++) {
-  //     if (event.target === btns[i]) {
-  //       showcase.addToCart(showcase.list[i].getId());
-  //       delbtns[i].classList.add("visible");
-  //document.querySelector('.deleteFromCart').classList.add("visible");
-  //     }
-  //   }
-  //   document.querySelector('.basketCount').textContent = ++productInCart;
-  // })
-
-  //console.log(showcase, cart)
 
   //выбираем div, куда будем выводить содержимое корзины
   const basketProductList = document.querySelector('.basketProductList');
@@ -345,6 +332,6 @@ setTimeout(() => {
       document.querySelector('.basketTotalValue').textContent = sum;
     }
   });
-
+  cart.fetchGoods();
   console.log(showcase, cart);
 }, 1000)
