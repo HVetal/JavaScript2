@@ -108,7 +108,9 @@ class Cart {
   }
 
   _onSuccess(response) {
-    const data = JSON.parse(response);
+    let data = JSON.parse(response);
+    // data = {};
+    // if (data === undefined) {
     let {
       amount,
       contents,
@@ -127,6 +129,11 @@ class Cart {
         })
       );
     });
+  // } else {
+  //   let listHtml = '';
+  //   listHtml += "<div class='ProductMarkup'>'Корзина пуста'</div>";
+  //   document.querySelector('.basketProductList').innerHTML = listHtml;
+  // }
   }
 
   _onError(err) {
@@ -169,6 +176,7 @@ class Showcase {
 
   _onSuccess(response) {
     const data = JSON.parse(response)
+
     data.forEach(product => {
       this.list.push(
         new Good({
@@ -178,6 +186,7 @@ class Showcase {
         })
       )
     });
+
   }
 
   _onError(err) {
@@ -233,7 +242,7 @@ class drawCartAll {
     //sum = 0;
     this.list.forEach(list => {
       const goodItem = new DrawCartOne(list.good.title, list.count, list.good.price);
-      //sum += list.count * list.good.price;
+      //sum += list.good.price; //* list.count;
       listHtml += goodItem.drawCartEl();
     });
     document.querySelector('.basketProductList').innerHTML = listHtml;
@@ -289,13 +298,13 @@ setTimeout(() => {
           for (let j = 0; j < cart.list.length; j++) {
             if ((cart.list[j].count === 1) && (cart.list.length === 1)) {
               delbtns[i].classList.add("unvisible");
-              //break;
             } else if ((cart.list[j].count === 1) && (delbtns[j] === delbtns[i]) && (cart.list.length !== 1)) {
               delbtns[i].classList.add("unvisible");
             }
           }
 
           cart.remove(showcase.list[i].getId());
+          sum -= showcase.list[i].getPrice();
           document.querySelector('.basketCount').textContent = --productInCart;
         }
       }
@@ -305,12 +314,12 @@ setTimeout(() => {
       for (let i = 0; i < btns.length; i++) {
         if (btn === btns[i]) {
           showcase.addToCart(showcase.list[i].getId());
+          sum += showcase.list[i].getPrice();
           delbtns[i].classList.remove("unvisible");
         }
       }
       document.querySelector('.basketCount').textContent = ++productInCart;
     }
-
   })
 
   //выбираем div, куда будем выводить содержимое корзины
