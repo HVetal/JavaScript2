@@ -24,6 +24,16 @@
     .color_text_red {
         color: red;
     }
+
+    .name_err {
+        display: none;
+    }
+    .tel_err {
+        display: none;
+    }
+    .mail_err {
+        display: none;
+    }
   </style>
 </head>
 <body>
@@ -32,19 +42,25 @@
   <label>
     Введите имя:
     <input class="form_name" type="text">
+    
   </label>
+  <div class="name_err">Имя должно содержать только буквы</div>
   <br>
   <br>
   <label>
     Телефон:
     <input class="form_tel" type="text" placeholder="+7(000)000-0000">
+    
   </label>
+  <div class="tel_err">Вы ввели неправильный телефон</div>
   <br>
   <br>
   <label>
     E-mail:
     <input class="form_email" type="email" placeholder="mymail@mail.ru">
+    
   </label>
+  <div class="mail_err">Вы ввели неправильный адрес электронной почты</div>
   <br>
   <br>
   <label>
@@ -75,12 +91,12 @@
   const inputBtn = document.querySelector('.form_btn');
   const inputText = document.querySelector('#text_value');
 
-//    let inputText = "This morning I get up at a half past six o'clock. It's still dark. I feel tired. I went to bed at 1 am and did not sleep enough. If a person doesn't sleep eight hours, it's unhealthy, I know. But today I take an exam. It starts at 9 am and I have to take a 7-hour bus if I want to arrive on time. I'm going to take a cold shower, to have a big coffee before getting there. Here I am in the bus. The people around me look tired too; I'm not the only one. But I think about my exam. I don't like mathematics at all, I find it abstract, and there are too many rules. What's the sense of all these rules? To tell the truth I don't understand some of them. The exam begins in ten minutes. I sit down and have a look at the other students, they are calm, and it seems they know everything. It's only me who does not know. I'm sure I'll be the only who will fail this exam, because I have not prepared enough. But I try not to panic. I have just handed in my paper, the test is over. It has been lasting for three hours. I feel relieved. I answered all the questions. Several of them were difficult, but I answered at random. An average mark 'will suffice me, I am not ambitious'. I have lunch with Carol. The exam was a disaster for her. She tells me that she remained a lot of questions without answering. We talked about mathematics during the whole meal. I would like to - 'discuss something else with her, but that moment she thought only of that'. She was worried and upset."
-
   let tempText = '';
-  const regexpText = /\s'|'\s|'\./g;
+  const regexpText = /(\s)'|'(\.|\s|,)/g;
+  //const regexpText2 = /'\./g;
   document.querySelector('.textBtn').addEventListener('click', () => {
     tempText = inputText.value.replace(regexpText, '"');
+  //  tempText = inputText.value.replace(regexpText2, '".');
     console.log(tempText);
   });
 
@@ -96,42 +112,51 @@
 
   inputName.addEventListener('input', event => {
     inputName.classList.remove('error');
+    inputName.classList.add('name_err' );
   });
 
   inputTel.addEventListener('input', event => {
-    inputTel.classList.remove('error');
+    inputTel.classList.remove('error', 'tel_err');
+    inputTel.classList.add('tel_err');
   });
 
   inputEmail.addEventListener('input', event => {
     inputEmail.classList.remove('error');
+    inputEmail.classList.add('mail_err');
   });
 
   inputBtn.addEventListener('click', () => {
     if (!regexpName.test(inputName.value)) {
-        inputName.insertAdjacentHTML('afterend', '<div class="color_text_red">Имя должно содержать только буквы</div>');
+    //    inputName.insertAdjacentHTML('afterend', '<div class="color_text_red">Имя должно содержать только буквы</div>');
         inputName.classList.add('error');
+        inputName.classList.remove('name_err');
        event.preventDefault();
     } else if (inputName.value === '') {
-        inputName.insertAdjacentHTML('afterend', '<div class="color_text_red">Имя - обязательное поле</div>');
+    //    inputName.insertAdjacentHTML('afterend', '<div class="color_text_red">Имя - обязательное поле</div>');
         inputName.classList.add('error');
+        inputName.classList.remove('name_err');
        event.preventDefault();
     }
     if (!(regexpTel.test(inputTel.value))) {
-        inputTel.insertAdjacentHTML('afterend', '<div class="color_text_red">Вы ввели неправильный телефон</div>');
+    //    inputTel.insertAdjacentHTML('afterend', '<div class="color_text_red">Вы ввели неправильный телефон</div>');
         inputTel.classList.add('error');
+        inputName.classList.remove('tel_err');
        event.preventDefault();
     } else if (inputTel.value === '') {
-        inputTel.insertAdjacentHTML('afterend', '<div class="color_text_red">Телефон - обязательное поле</div>');
+    //    inputTel.insertAdjacentHTML('afterend', '<div class="color_text_red">Телефон - обязательное поле</div>');
         inputTel.classList.add('error');
+        inputName.classList.remove('tel_err');
        event.preventDefault();
     }
     if (!regexpEmail.test(inputEmail.value)) {
-        inputEmail.insertAdjacentHTML('afterend', '<div class="color_text_red">Вы ввели неправильный адрес электронной почты</div>');
+    //    inputEmail.insertAdjacentHTML('afterend', '<div class="color_text_red">Вы ввели неправильный адрес электронной почты</div>');
         inputEmail.classList.add('error');
+        inputName.classList.remove('mail_err');
        event.preventDefault();
     } else if (inputEmail.value === '') {
-        inputEmail.insertAdjacentHTML('afterend', '<div class="color_text_red">Адрес - обязательное поле</div>');
+    //    inputEmail.insertAdjacentHTML('afterend', '<div class="color_text_red">Адрес - обязательное поле</div>');
         inputEmail.classList.add('error');
+        inputName.classList.remove('mail_err');
        event.preventDefault();
     }
     });
