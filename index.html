@@ -39,6 +39,16 @@
     .mail_err {
       display: none;
     }
+
+    .text_error {
+        display: none;
+    }
+
+    .text {
+        font-family: 'Courier New', Courier, monospace;
+        font-size: 12px;
+        width: 510px
+    }
   </style>
 </head>
 
@@ -48,9 +58,8 @@
     <label>
       Введите имя:
       <input class="form_name" type="text">
-
     </label>
-    <div class="name_err">Имя должно содержать только буквы</div>
+    <div class="name name_err color_text_red">Имя должно содержать только буквы</div>
     <br>
     <br>
     <label>
@@ -58,7 +67,7 @@
       <input class="form_tel" type="text" placeholder="+7(000)000-0000">
 
     </label>
-    <div class="tel_err">Вы ввели неправильный телефон</div>
+    <div class="tel tel_err color_text_red">Вы ввели неправильный телефон</div>
     <br>
     <br>
     <label>
@@ -66,7 +75,7 @@
       <input class="form_email" type="email" placeholder="mymail@mail.ru">
 
     </label>
-    <div class="mail_err">Вы ввели неправильный адрес электронной почты</div>
+    <div class="mail mail_err color_text_red">Вы ввели неправильный адрес электронной почты</div>
     <br>
     <br>
     <label>
@@ -81,6 +90,7 @@
 
   <br>
   <br>
+  <div class="text">This morning I get up at a half past six o'clock. It's still dark. I feel tired. I don't like mathematics at all, - 'I find it abstract', and there are too many rules. 'What's the sense of all these rules?' - To tell the truth I don't understand some of them. An average mark - 'will suffice me, I am not ambitious'. I would like to - 'discuss something else with her, but that moment she thought only of that'. She was worried and upset.</div>
   <br>
   <textarea name="text" id="text_value" cols="70"
     rows="7">This morning I get up at a half past six o'clock. It's still dark. I feel tired. I don't like mathematics at all, - 'I find it abstract', and there are too many rules. 'What's the sense of all these rules?' - To tell the truth I don't understand some of them. An average mark - 'will suffice me, I am not ambitious'. I would like to - 'discuss something else with her, but that moment she thought only of that'. She was worried and upset.</textarea>
@@ -98,104 +108,68 @@
     const inputBtn = document.querySelector('.form_btn');
     const inputText = document.querySelector('#text_value');
 
-    let tempText = '';
-    const regexpText = /(\W)'|'(\W)/gm;
-    // //const regexpText2 = /'\./g;
-    document.querySelector('.textBtn').addEventListener('click', () => {
-      // replaceTextArea(inputText.value);
-      tempText = inputText.value.replace(regexpText, '"');
-      //  tempText = inputText.value.replace(regexpText2, '".');
-      console.log(tempText);
+
+    let tempText = inputText.value;
+    const regexpText = /\s'|'\s|'\.|',/g;
+    let regexp = '';
+    document.querySelector('.textBtn').addEventListener('click', event => {
+        tempText.match(regexpText).forEach(el => {
+            if (el === " '") {
+                regexp = /\s'/g;
+                tempText = tempText.replace(regexp, ' "')
+            } else if (el === "' ") {
+                regexp = /'\s/g;
+                tempText = tempText.replace(regexp, '" ')
+            } else if (el === "'.") {
+                regexp = /'\./g;
+                tempText = tempText.replace(regexp, '".')
+            } else if (el === "',") {
+                regexp = /',/g;
+                tempText = tempText.replace(regexp, '",')
+            } 
+        });
+        inputText.value = tempText;
+        event.target.textContent = 'Готово';
+        event.target.disabled = true;
     });
-    //let temp = inputText.value;
-
-    // function replaceTextArea(temp) {
-    //   function findTarget(match) {
-    //     return '"';
-    //   }
-    //   return inputText.value.replace(/'/, findTarget);
-    // }
-    // console.log(inputText.value);
-    //console.log(inputText.replace(regexpText, '"'));
-    //console.log(inputText);
-
-
-
-
+    
     const regexpName = /[a-zA-Zа-яА-Я]/i;
     const regexpTel = /^\+7\(\d{3}\)\d{3}-\d{4}$/;
     const regexpEmail = /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/i;
 
     inputName.addEventListener('input', event => {
       inputName.classList.remove('error');
-      inputName.classList.add('name_err');
+      document.querySelector('.name').classList.add('name_err');
     });
 
     inputTel.addEventListener('input', event => {
-      inputTel.classList.remove('error', 'tel_err');
-      inputTel.classList.add('tel_err');
+      inputTel.classList.remove('error');
+      document.querySelector('.tel').classList.add('tel_err');
     });
 
     inputEmail.addEventListener('input', event => {
       inputEmail.classList.remove('error');
-      inputEmail.classList.add('mail_err');
+      document.querySelector('.mail').classList.add('mail_err');
     });
 
     inputBtn.addEventListener('click', () => {
-      if (!regexpName.test(inputName.value)) {
-        //    inputName.insertAdjacentHTML('afterend', '<div class="color_text_red">Имя должно содержать только буквы</div>');
+      if (!(regexpName.test(inputName.value)) || (inputName.value === '')) {
         inputName.classList.add('error');
-        inputName.classList.remove('name_err');
-        event.preventDefault();
-      } else if (inputName.value === '') {
-        //    inputName.insertAdjacentHTML('afterend', '<div class="color_text_red">Имя - обязательное поле</div>');
-        inputName.classList.add('error');
-        inputName.classList.remove('name_err');
+        document.querySelector('.name').classList.remove('name_err');
         event.preventDefault();
       }
-      if (!(regexpTel.test(inputTel.value))) {
-        //    inputTel.insertAdjacentHTML('afterend', '<div class="color_text_red">Вы ввели неправильный телефон</div>');
+      if (!(regexpTel.test(inputTel.value)) || (inputTel.value === '')) {
         inputTel.classList.add('error');
-        inputName.classList.remove('tel_err');
+        document.querySelector('.tel').classList.remove('tel_err');
         event.preventDefault();
-      } else if (inputTel.value === '') {
-        //    inputTel.insertAdjacentHTML('afterend', '<div class="color_text_red">Телефон - обязательное поле</div>');
-        inputTel.classList.add('error');
-        inputName.classList.remove('tel_err');
-        event.preventDefault();
-      }
-      if (!regexpEmail.test(inputEmail.value)) {
-        //    inputEmail.insertAdjacentHTML('afterend', '<div class="color_text_red">Вы ввели неправильный адрес электронной почты</div>');
+      } 
+      if (!(regexpEmail.test(inputEmail.value)) || (inputEmail.value === '')) {
         inputEmail.classList.add('error');
-        inputName.classList.remove('mail_err');
+        document.querySelector('.mail').classList.remove('mail_err');
         event.preventDefault();
-      } else if (inputEmail.value === '') {
-        //    inputEmail.insertAdjacentHTML('afterend', '<div class="color_text_red">Адрес - обязательное поле</div>');
-        inputEmail.classList.add('error');
-        inputName.classList.remove('mail_err');
-        event.preventDefault();
-      }
+      }  
     });
 
-
-    //   inputEl.addEventListener('input', event => {
-    //     inputEl.classList.remove('error');
-    //   });
-
-    //   inputSel.addEventListener('input', event => {
-    //     inputSel.classList.remove('error');
-    //   });
-
-    //   sendBtn.addEventListener('click', event => {
-    //     if (inputEl.value === '') {
-    //       inputEl.classList.add('error');
-    //       event.preventDefault();
-    //     }
-    //     if (inputSel.value === '') {
-    //       inputSel.classList.add('error');
-    //       event.preventDefault();
-    //     }
-    //    });
   </script>
 </body>
 
