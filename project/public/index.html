@@ -2,43 +2,46 @@
 <html>
 
 <head>
-  <link rel="stylesheet" href="style.css">
-  <title>eShop</title>
+    <link rel="stylesheet" href="style.css">
+    <title>eShop</title>
 </head>
 
 <body>
-  <header>
-    <input type="text" id="search-input" />
-    <button id="search-btn" type="button">Искать</button>
-    <div class="rightHeader">
-      <span class="cartIconWrap">
-        <img class="cartIcon" src="images/cart.png" alt="">
-        <span class='basketCount'>0</span>
-      </span>
-    </div>
+    <header>
+        <input type="text" id="search-input" />
+        <button id="search-btn" type="button">Искать</button>
+        <div class="rightHeader">
+            <span class="cartIconWrap">
+                <img class="cartIcon" src="images/cart.png" alt="">
+                <span class='basketCount'>0</span>
+            </span>
+        </div>
 
-    <div class="popupBasket">
-      <div class="ProductMarkup basketHeader">
-        <div>Название товара</div>
-        <div>Количество</div>
-        <div>Цена за шт.</div>
-        <div>Итого</div>
-      </div>
-      <div class="basketProductList"></div>
-      <div class="basketTotal">
-        Товаров в корзине на сумму:
-        <span class="basketTotalValue">0</span>
-      </div>
-    </div>
-  </header>
-  <main>
+        <div class="popupBasket">
+            <div class="ProductMarkup basketHeader">
+                <div>Название товара</div>
+                <div>Количество</div>
+                <div>Цена за шт.</div>
+                <div>Итого</div>
+            </div>
+            <div class="basketProductList"></div>
+            <div class="basketTotal">
+                Товаров в корзине на сумму:
+                <span class="basketTotalValue">0</span>
+            </div>
+        </div>
+    </header>
+    <main>
 
-    <div class="goods-list"></div>
+        <div class="goods-list"></div>
+        <div class="modal">
+            <button id='close-btn'>Close</button>
+            <div class="cart-list"></div>
+        </div>
+    </main>
 
-  </main>
-
-  <!-- <script src="../index.js"></script> -->
-  <script src="script.js"></script>
+    <!-- <script src="../index.js"></script> -->
+    <script src="script.js"></script>
 </body>
 
 </html>

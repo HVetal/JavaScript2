@@ -19,11 +19,11 @@ header {
     margin-right: 20px;
 }
 
-.goods-list {
+/* .goods-list {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-}
+} */
 
 .goods-item {
     display: flex;
@@ -111,4 +111,17 @@ header {
 
 .visible {
     visibility: visible;
+}
+
+.modal {
+    display: none;
+    width: 800px;
+    min-height: 600px;
+    position: absolute;
+    top: 100px;
+    left: calc(50% - 400px);
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 3px;
+    padding: 20px;
 }
