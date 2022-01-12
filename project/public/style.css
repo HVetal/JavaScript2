@@ -19,11 +19,11 @@ header {
     margin-right: 20px;
 }
 
-/* .goods-list {
+.goods-list {
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
-} */
+}
 
 .goods-item {
     display: flex;

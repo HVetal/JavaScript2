@@ -91,11 +91,14 @@ class GoodStack {
   }
 
   getTitle() {
-    return this.good.getTitle();
+    // return this.good.getTitle();
+    return this.good.title;
   }
 
   getPrice() {
-    return this.good.getPrice() * this.count;
+    // return this.good.getPrice() * this.count;
+    // return this.good.price * this.count;
+    return this.good.price;
   }
 
   add() {
@@ -114,10 +117,7 @@ class Cart {
   constructor() {
     this.list = [];
 
-    //    setTimeout(() => {
-    //this.view = new drawCartAll(this.list);
-    //    }, 0);
-    this.view = new CartView('.modal');
+    this.view = new CartView('.popupBasket');
   }
 
   open() {
@@ -200,8 +200,7 @@ class Cart {
     } else {
       this.list.push(new GoodStack(good))
     }
-    this.view = new drawCartAll(this.list);
-    //this.drawCart(this.list);
+
     this.view.render(this.list);
   }
 
@@ -216,8 +215,6 @@ class Cart {
         this.list.splice(idx, 1)
       }
     }
-    //this.view = new drawCartAll(this.list);
-    //his.drawCart(this.list);
     this.view.render(this.list);
   }
 }
@@ -227,9 +224,6 @@ class Showcase {
     this.list = [];
     this.filtered = [];
     this.cart = cart;
-    //    setTimeout(() => {
-    //this.view = new drawShowcaseAll(this.filtered);
-    //    }, 0);
     this.view = new ShowcaseView('.goods-list');
 
 
@@ -239,11 +233,13 @@ class Showcase {
     this.searchButton.addEventListener('click', this.filter.bind(this));
   }
 
+    
+
   filter() {
     const search = new RegExp(this.searchInput.value, 'i');
     this.filtered = this.list.filter((good) => search.test(good.title));
 
-    this.view.drawShowcase(this.filtered);
+    this.view.render(this.filtered);
   }
 
   _onSuccess(response) {
@@ -271,20 +267,14 @@ class Showcase {
       })
       .then((response) => {
         this._onSuccess(response);
+        this.filtered = this.list;
+        this.view.render(this.filtered);
         return response;
       })
       .catch((err) => {
         this._onError(err);
       })
-    this.view.render(this.list);
     // send(this._onError, this._onSuccess.bind(this), `${API_URL}catalogData.json`);
-
-    //this.filtered = this.list;
-    //   setTimeout(() => {
-    //this.view.drawShowcase(this.filtered);
-    //    }, 0);
-
-    //this.view.render(this.filtered);
   }
 
   addToCart(id) {
@@ -296,67 +286,25 @@ class Showcase {
   }
 }
 // Класс отрисовки всей витрины
-// class drawShowcaseAll {
-//   constructor(showcase) { // showcase
-//     this.list = showcase.list; //showcase.list filtered
-//   }
-//   drawShowcase() {
-//     let listHtml = '';
-//     this.list.forEach(list => {
-//       const goodItem = new Draw(list.title, list.price);
-//       listHtml += goodItem.drawShowcaseEl();
-//     });
-//     document.querySelector('.goods-list').innerHTML = listHtml;
-//   }
-// }
 class ShowcaseView {
   constructor(containerSelector) {
     this.container = document.querySelector(containerSelector);
   }
   render(list) {
     this.container.textContent = '';
-    const template = list.map((good) =>
-      `<div class="card"><h3>${good.getTitle()}</h3><p>${good.getPrice()} $</p></div>`).join('');
+    const template = list.map((good) => `<div class="goods-item"><h3>${good.getTitle()}</h3><p>${good.getPrice()}</p><button class="addToCart">Add to Cart</button><button class="deleteFromCart">Delete from Cart</button></div>`).join('');
 
-    this.container.insertAdjasentHTML('afterbegin', template);
+    this.container.innerHTML = template;
   }
 }
 
-// Класс отрисовки одного товара витрины
-// class Draw {
-//   constructor(title, price) {
-//     this.title = title;
-//     this.price = price;
-//   }
-
-//   drawShowcaseEl() {
-//     return `<div class="goods-item"><h3>${this.title}</h3><p>${this.price}</p><button class="addToCart">Add to Cart</button><button class="deleteFromCart">Delete from Cart</button></div>`;
-//   }
-// }
-
 // Класс отрисовки корзины
-// class drawCartAll {
-//   constructor(cart) {
-//     this.list = cart.list;
-//   }
-//   drawCart() {
-//     let listHtml = '';
-//     //sum = 0;
-//     this.list.forEach(list => {
-//       const goodItem = new DrawCartOne(list.good.title, list.count, list.good.price);
-//       //sum += list.good.price; //* list.count;
-//       listHtml += goodItem.drawCartEl();
-//     });
-//     document.querySelector('.basketProductList').innerHTML = listHtml;
-//   }
-// }
-
 class CartView {
   constructor(containerSelector) {
     this.container = document.querySelector(containerSelector);
     this.closeBtn = this.container.querySelector('#close-btn');
-    this.listContainer = this.container.querySelector('.cart-list');
-
+    //this.listContainer = this.container.querySelector('.cart-list');
+    this.listContainer = document.querySelector('.basketProductList');
     this.closeBtn.addEventListener('click', this.close.bind(this));
   }
 
@@ -368,23 +316,16 @@ class CartView {
     this.container.style.display = 'none';
   }
   render(list) {
+    let sum = 0;
     this.listContainer.textContent = '';
-    const template = list.map((good) => `<div class="card"><h3>${good.getTitle()} x${good.getCount()}</h3><p>${good.getPrice()} $</p></div>`).join('');
-
-    this.listContainer.insertAdjasentHTML('afterbegin', template);
+    const template = list.map((good) => `<div class="ProductMarkup"><div>${good.getTitle()}</div><div>${good.getCount()}</div><div>${good.getPrice()}</div><div>${good.getPrice() * good.getCount()} p.</div></div>`).join('');
+    const summa = list.map((good) => sum += good.getPrice() * good.getCount());
+      
+    this.listContainer.innerHTML = template;
+    document.querySelector('.basketTotalValue').textContent = sum;
   }
 }
-// Класс отрисовки элемента корзины
-// class DrawCartOne {
-//   constructor(title, count, price) {
-//     this.title = title;
-//     this.count = count;
-//     this.price = price;
-//   }
-//   drawCartEl() {
-//     return `<div class="ProductMarkup"><div>${this.title}</div><div>${this.count}</div><div>${this.price}</div><div>${this.price * this.count}</div></div>`;
-//   }
-// }
+
 let productInCart;
 let sum;
 let resultDel;
@@ -395,114 +336,74 @@ const showcase = new Showcase(cart);
 const cartBtn = document.querySelector('.cartIcon');
 cartBtn.addEventListener('click', cart.open.bind(cart));
 // Загрузка витрины с сервера
-//setTimeout(() => {
+
 const promise = showcase.fetchGoods();
 
 promise.then(() => {
-    //}, 1000);
-    //setTimeout(() => {
+
     console.log('Витрина загружена с сервера');
 
-    // renderGoodsList(showcase.list);
-    showcase.addToCart(1);
-    showcase.addToCart(1);
-    showcase.addToCart(2);
-    showcase.addToCart(3);
-    cart.remove(1);
-    //    setTimeout(() => {
-    //const draw = new drawShowcaseAll(showcase);
-    //draw.drawShowcase();
-    //console.log(showcase, cart)
-    // Загрузка витрины с сервера
-    // cart.fetchGoods();
-    // console.log('Корзина загружена с сервера');
+    // Загрузка корзины с сервера
+    cart.fetchGoods();
+    console.log('Корзина загружена с сервера');
 
-    // // Установили кнопки удаления товара из корзины у тех товаров, 
-    // // у которых count > 0
-    // const delbtns = document.querySelectorAll('.deleteFromCart');
-    // cart.list.forEach((el, i) => {
-    //   if (el.count > 0) {
-    //     delbtns[i].classList.add("unvisible");
-    //   }
-    // });
+    // Установили кнопки удаления товара из корзины у тех товаров, 
+    // у которых count > 0
+    const delbtns = document.querySelectorAll('.deleteFromCart');
+    cart.list.forEach((el, i) => {
+      if (el.count > 0) {
+        delbtns[i].classList.add("unvisible");
+      }
+    });
 
-    // const buttonEl = document.querySelector('.goods-list');
-    // buttonEl.addEventListener('click', event => {
-    //   const btn = event.target;
+    const buttonEl = document.querySelector('.goods-list');
+    buttonEl.addEventListener('click', event => {
+      const btn = event.target;
 
-    //   if (btn.tagName !== "BUTTON") {
-    //     return;
-    //   } else if (btn.classList.contains('deleteFromCart')) {
-    //     for (let i = 0; i < delbtns.length; i++) {
-    //       // если мы нажали именно на эту кнопку удаления товара
-    //       if ((btn === delbtns[i])) {
-    //         // делаем запрос на сервер, если ответ успешный: result === 1, 
-    //         // то удаляем ьовар из корзины
-    //         cart.delGoods();
-    //         // ждем ответа от сервера
-    //         //              setTimeout(() => {
-    //         if (resultDel === 1) {
-    //           // если это последний такой товар, то убираем кнопку
-    //           for (let j = 0; j < cart.list.length; j++) {
-    //             if ((cart.list[j].count === 1) && (cart.list.length === 1)) {
-    //               delbtns[i].classList.add("unvisible");
-    //             } else if ((cart.list[j].count === 1) && (delbtns[j] === delbtns[i]) && (cart.list.length !== 1)) {
-    //               delbtns[i].classList.add("unvisible");
-    //             }
-    //           }
-    //           // удаление товара из корзины
-    //           console.log('Такой товар есть в корзине на сервере');
-    //           cart.remove(showcase.list[i].getId());
-    //           sum -= showcase.list[i].getPrice();
-    //           document.querySelector('.basketCount').textContent = --productInCart;
-    //         }
-    //         //              }, 1000);
-    //       }
-    //     }
-    //     // добавление товара в корзину
-    //   } else if (btn.classList.contains('addToCart')) {
-    //     const btns = document.querySelectorAll('.addToCart');
-    //     cart.addGoods();
-    //     //            setTimeout(() => {
-    //     if (resultAdd === 1) {
-    //       for (let i = 0; i < btns.length; i++) {
-    //         if (btn === btns[i]) {
-    //           showcase.addToCart(showcase.list[i].getId());
-    //           sum += showcase.list[i].getPrice();
-    //           delbtns[i].classList.remove("unvisible");
-    //         }
-    //       }
-    //       console.log('Такой товар есть в наличии');
-    //     }
-    //     //          }, 1000);
-    //     document.querySelector('.basketCount').textContent = ++productInCart;
-    //   }
-    // })
+      if (btn.tagName !== "BUTTON") {
+        return;
+      } else if (btn.classList.contains('deleteFromCart')) {
+        for (let i = 0; i < delbtns.length; i++) {
+          // если мы нажали именно на эту кнопку удаления товара
+          if ((btn === delbtns[i])) {
+            // делаем запрос на сервер, если ответ успешный: result === 1, 
+            // то удаляем ьовар из корзины
+            cart.delGoods();
+            // ждем ответа от сервера
+            if (resultDel === 1) {
+              // если это последний такой товар, то убираем кнопку
+              for (let j = 0; j < cart.list.length; j++) {
+                if ((cart.list[j].count === 1) && (cart.list.length === 1)) {
+                  delbtns[i].classList.add("unvisible");
+                } else if ((cart.list[j].count === 1) && (delbtns[j] === delbtns[i]) && (cart.list.length !== 1)) {
+                  delbtns[i].classList.add("unvisible");
+                }
+              }
+              // удаление товара из корзины
+              console.log('Такой товар есть в корзине на сервере');
+              cart.remove(showcase.list[i].getId());
+              document.querySelector('.basketCount').textContent = --productInCart;
+            }
+          }
+        }
+        // добавление товара в корзину
+      } else if (btn.classList.contains('addToCart')) {
+        const btns = document.querySelectorAll('.addToCart');
+        cart.addGoods();
+        if (resultAdd === 1) {
+          for (let i = 0; i < btns.length; i++) {
+            if (btn === btns[i]) {
+              showcase.addToCart(showcase.list[i].getId());
+              delbtns[i].classList.remove("unvisible");
+            }
+          }
+          console.log('Такой товар есть в наличии');
+        }
+        document.querySelector('.basketCount').textContent = ++productInCart;
+      }
+    })
 
-    // //выбираем div, куда будем выводить содержимое корзины
-    // const basketProductList = document.querySelector('.basketProductList');
-    // // при клике по корзине
-    // document.querySelector('.cartIcon').addEventListener('click', event => {
-    //   //если окно корзины видно на экране
-    //   if (document.querySelector('.popupBasket').style.display === "block") {
-    //     //то убрать его
-    //     document.querySelector('.popupBasket').style.display = "none";
-    //   } else { //иначе, если окно корзины было скрыто
-    //     // очистить, что выводилось в предыдущий раз
-    //     basketProductList.innerHTML = ' ';
-    //     //показать окно корзины
-    //     document.querySelector('.popupBasket').style.display = "block";
-    //     //const drawCart = new drawCartAll(cart);
-    //     //drawCart.drawCart();
-    //     //вывести общую стоимость покупок
-    //     document.querySelector('.basketTotalValue').textContent = sum;
-    //   }
-    // });
-
-    // //console.log(showcase, cart);
-    // //    }, 0);
   })
   .catch((err) => {
     console.log(err)
-  })
-//}, 0);
+  });
