@@ -1,0 +1,20 @@
+.catalog_grid {
+
+    &__featured {
+        margin-top: 65px;
+    }
+
+    &__items-list {
+        display: grid;
+        grid-template-columns: repeat(3, 360px);
+        grid-gap: 30px;
+    }
+
+    &__items-item {
+        margin-bottom: 0px;
+    }
+
+    &__wrp--show {
+        opacity: 0.9;
+    }
+}

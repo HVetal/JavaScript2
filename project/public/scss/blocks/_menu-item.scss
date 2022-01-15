@@ -1,0 +1,31 @@
+.menu-item {
+
+    &__title {
+        @include font(14px, 17px);
+        color: $pink;
+        text-transform: uppercase;
+        padding: 20px 0 12px 0;
+    }
+
+    &__sub-item {
+        @include font(14px, 17px);
+        padding: 11px 0 0 20px;
+    }
+
+    &__sub-item a {
+        text-decoration-color: #fff;
+        color: #6F6E6E;
+    }
+
+    &__sub-item a:hover {
+        color: $grey;
+    }
+
+    &__sub-item a:active {
+        color: $pink;
+    }
+
+    &__sub-item a:focus {
+        text-decoration-color: #6F6E6E;
+    }
+}
