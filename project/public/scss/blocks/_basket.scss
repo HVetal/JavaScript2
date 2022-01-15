@@ -1,15 +1,3 @@
-body {
-    margin: 0 auto;
-}
-
-header {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    background-color: #000;
-    height: 50px;
-}
-
 .cart-button {
     width: 100px;
     height: 25px;
@@ -46,7 +34,7 @@ header {
     position: relative;
 }
 
-.cartIconWrap span {
+.basketCount {
     display: inline-block;
     width: 19px;
     height: 19px;
@@ -56,7 +44,7 @@ header {
     position: absolute;
     text-align: center;
     right: -8px;
-    top: -19px;
+    top: 8px;
     font-size: 12px;
     line-height: 19px;
 }
@@ -75,7 +63,7 @@ header {
     background-color: #fff;
     width: 600px;
     min-height: 70px;
-    top: 74px;
+    top: 10px;
     right: 0;
     z-index: 3;
     display: none;
@@ -111,17 +99,4 @@ header {
 
 .visible {
     visibility: visible;
-}
-
-.modal {
-    display: none;
-    width: 800px;
-    min-height: 600px;
-    position: absolute;
-    top: 100px;
-    left: calc(50% - 400px);
-    border: 1px solid #ccc;
-    background-color: #fff;
-    border-radius: 3px;
-    padding: 20px;
 }

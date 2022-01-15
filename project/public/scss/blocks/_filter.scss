@@ -1,0 +1,113 @@
+.catalog_filter {
+    display: grid;
+    grid-template-columns: repeat(3, 360px);
+    grid-column-gap: 30px;
+    margin-top: 51px;
+    align-items: center;
+    position: relative;
+
+    &__dropdown {
+        display: flex;
+        justify-content: start;
+        grid-column-start: 2;
+        grid-column-end: 4;
+
+    }
+
+    &__dropdown-btn {
+        background-color: transparent;
+        text-transform: uppercase;
+        color: #6F6E6E;
+        border: none;
+        @include font (14px, 17px);
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        &:focus {
+            background-color: #fff;
+            outline: #6F6E6E;
+            color: #6F6E6E;
+            border: none;
+            box-shadow: none;
+        }
+
+        &:active {
+            background-color: #b8b6b6;
+            color: #fff;
+            border: none;
+            outline: none;
+        }
+
+        &::after {
+            background-image: url(../../img/dropdown.svg);
+        }
+    }
+
+    &__menu-btn {
+        border: none;
+        background-color: transparent;
+    }
+
+    &__nav {
+        position: absolute;
+        background-color: #fff;
+        left: 0;
+        bottom: -531px;
+        display: none;
+        z-index: 2;
+        width: 390px;
+        height: 531px;
+        padding-left: 30px;
+    }
+
+    &__nav--show {
+        display: block;
+    }
+
+    &__nav-title {
+        @include font(14px, 17px, 700);
+        color: #000000;
+        text-transform: uppercase;
+        padding: 37px 0 4px 0;
+    }
+
+    &__btn {
+        fill: #000;
+
+        &:hover {
+            fill: $pink;
+        }
+
+        &:active {
+            fill: $pink;
+        }
+
+        &:focus {
+            fill: $pink;
+            border: none;
+            outline: none;
+        }
+    }
+
+    &__menu-title {
+        position: relative;
+
+        &::before {
+            height: 37px;
+            width: 5px;
+            background-color: $pink;
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 10px;
+        }
+    }
+
+    &__menu-hr {
+        width: 327px;
+        border: 1px solid #EBEBEB;
+        margin: 0;
+    }
+}

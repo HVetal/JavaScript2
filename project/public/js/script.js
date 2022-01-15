@@ -1,10 +1,14 @@
-"use strict"
+let button = document.getElementById('burger');
 
-// const {
-//   response
-// } = require("express");
+let navigation = document.getElementById('menu');
 
-// 
+let wrp = document.getElementById('wrp');
+
+button.addEventListener('click', function () {
+  navigation.classList.toggle('header__nav--show');
+  wrp.classList.toggle('brand__wrp--show');
+});
+
 const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/';
 
 function send(onError, onSuccess, url, method = 'GET', data = '', headers = {}, timeout = 60000) {
@@ -253,7 +257,7 @@ class Showcase {
     this.view = new ShowcaseView('.goods-list');
 
 
-    this.searchInput = document.querySelector('#search-input');
+    this.searchInput = document.querySelector('#search');
     this.searchButton = document.querySelector('#search-btn');
 
     this.searchButton.addEventListener('click', this.filter.bind(this));
@@ -355,7 +359,7 @@ let resultDel;
 let resultAdd;
 const cart = new Cart();
 const showcase = new Showcase(cart);
-const cartBtn = document.querySelector('.cartIcon');
+const cartBtn = document.querySelector('.header__link-basket');
 cartBtn.addEventListener('click', cart.open.bind(cart));
 
 // Загрузка витрины с сервера
