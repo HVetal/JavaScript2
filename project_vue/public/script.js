@@ -19,7 +19,6 @@ new Vue({
 
         fetch(`${API_URL}/showcase`)
             .then((res) => {
-                // console.log(res);
                 return res.json();
             })
             .then((data) => {
@@ -32,20 +31,7 @@ new Vue({
             })
             .then((data) => {
                 this.cart = data;
-             //   console.log(data);
             })
-
-            // fetch(`${API_URL}/cart`, {
-            //     metod: 'DELETE',
-            //     headers: {
-            //         "Content-Type": 'application/json',
-            //     body: JSON.parse(data)
-            //     }
-            // })
-            // .then((data) => {
-            //     console.log(data);
-            //     cart.pop(data);
-            // })
 
     }
 })

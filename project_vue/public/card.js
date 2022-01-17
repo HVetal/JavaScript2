@@ -7,25 +7,42 @@ Vue.component(`card`, {
         <button :data-id="good.id" v-if="actionname === 'Удалить'" v-on:click="getDel">{{ actionname }}</button>
     </div>
     `,
+    data() {
+        return {
+            cart: []
+        }
+    },
     props: ['good', 'actionname'],
     methods: {
+
         getBuy() {
-            console.log('click buy');
-//            console.log(good);
             fetch(`${API_URL}/cart`, {
-                metod: 'POST',
-                headers: {
-                    "Content-Type": 'application/json',
-                body: {"id":6,"title":"Xiaomi","price":100}
-                }
-            })
-            .then((good) => {
-                console.log(good);
-                this.cart.push(good);
-            })
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify(this.good)
+
+                })
+                .then((good) => {
+                    const product = JSON.stringify(this.good);
+                    this.cart.push(product);
+                })
         },
         getDel() {
             console.log('click del');
+            fetch(`${API_URL}/cart`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify(this.good)
+
+                })
+                .then((good) => {
+                    const product = JSON.stringify(this.good);
+                    this.cart.pop(product);
+                })
         }
     }
 })
