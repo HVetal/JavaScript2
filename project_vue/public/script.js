@@ -6,12 +6,14 @@ new Vue({
     data: {
         showcase: [],
         cart: [],
+        addToCart: {},
         isCartVisible: false
     },
     methods: {
         onCartOpen() {
             this.isCartVisible = !this.isCartVisible
         }
+
     },
     mounted() {
 
@@ -29,23 +31,21 @@ new Vue({
                 return res.json();
             })
             .then((data) => {
-                this.cart = data.contents;
-                console.log(data.contents);
+                this.cart = data;
+             //   console.log(data);
             })
 
-        fetch(`${API_URL}/cart`, {
-                metod: 'POST',
-                headers: {
-                    "Content-Type": 'application/json',
-                    body: JSON.parse(data)
-                }
-            })
-            .then((res) => {
-                return res.json();
-            })
-            .then((data) => {
-                this.cart = data;
-                console.log(data);
-            })
+            // fetch(`${API_URL}/cart`, {
+            //     metod: 'DELETE',
+            //     headers: {
+            //         "Content-Type": 'application/json',
+            //     body: JSON.parse(data)
+            //     }
+            // })
+            // .then((data) => {
+            //     console.log(data);
+            //     cart.pop(data);
+            // })
+
     }
 })
