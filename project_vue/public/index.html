@@ -27,7 +27,7 @@
 
         <header>
             <button v-on:click="onCartOpen" type="button">Корзина</button>
-            <filter></filter>
+            <filtered :list="filteredGoods"></filtered>
         </header>
 
         <main>
@@ -40,7 +40,9 @@
     </script>
     <script src="card.js"></script>
     <script src="cart.js"></script>
+
     <script src="showcase.js"></script>
+    <script src="filter.js"></script>
     <script src="script.js"></script>
 </body>
 
