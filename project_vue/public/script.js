@@ -5,13 +5,14 @@ new Vue({
     el: "#app",
     data: {
         showcase: [],
+        filteredGoods: [],
         cart: [],
-        addToCart: {},
-        isCartVisible: false
+        isCartVisible: false,
+        searchLine: ''
     },
     methods: {
         onCartOpen() {
-            this.isCartVisible = !this.isCartVisible
+            this.isCartVisible = !this.isCartVisible;
         }
 
     },
@@ -23,6 +24,7 @@ new Vue({
             })
             .then((data) => {
                 this.showcase = data;
+                this.filteredGoods = data;
             })
 
         fetch(`${API_URL}/cart`)
@@ -35,3 +37,4 @@ new Vue({
 
     }
 })
+

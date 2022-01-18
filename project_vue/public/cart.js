@@ -3,7 +3,7 @@ Vue.component('cart', {
     <div class="modal">
         <button v-on:click="onClick">Close</button>
         <div class="cart-list">
-            <card v-for="item in list" :good="item" :actionname='"Удалить"'></card>
+            <card v-for="item in list" :good="item" :key="item.id" :actionname='"Удалить"'></card>
         </div>
     </div>
             `,
@@ -11,6 +11,7 @@ Vue.component('cart', {
     methods: {
         onClick() {
             this.$emit('cart-close');
-        }
+        },
     }
-})
+ })
+

@@ -9,10 +9,10 @@ Vue.component(`card`, {
     `,
     data() {
         return {
-            cart: []
+            cart: [],
         }
     },
-    props: ['good', 'actionname'],
+    props: ['good', 'actionname', 'action'],
     methods: {
 
         getBuy() {
@@ -22,11 +22,9 @@ Vue.component(`card`, {
                         "Content-Type": 'application/json'
                     },
                     body: JSON.stringify(this.good)
-
                 })
-                .then((good) => {
-                    const product = JSON.stringify(this.good);
-                    this.cart.push(product);
+                .then((data) => {
+                    this.cart.push(data);
                 })
         },
         getDel() {
@@ -37,11 +35,9 @@ Vue.component(`card`, {
                         "Content-Type": 'application/json'
                     },
                     body: JSON.stringify(this.good)
-
                 })
-                .then((good) => {
-                    const product = JSON.stringify(this.good);
-                    this.cart.pop(product);
+                .then((data) => {
+                    this.cart.pop(data);
                 })
         }
     }
