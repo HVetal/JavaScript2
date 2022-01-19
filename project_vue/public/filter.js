@@ -1,14 +1,22 @@
 Vue.component('filtered', {
     template: `
     <div>
-        <input type="text"  v-model="searchLine">
+        <input type="text" v-model="searchLine">
         <button type="button" v-on:click="setFilter">Искать</button>
     </div>
     `,
-    props: ['list', 'searchLine'],
-    computed: {
+    props: ['list'],
+    data() {
+        return {
+            filteredGoods: [],
+
+        }
+    },
+    methods: {
         setFilter() {
-            filteredGoods = list.RegExp(searchLine, 'i').test;
+            const search = new RegExp(searchLine, 'i');
+            this.filteredGoods = this.list.filter((good) => search.test(good.title));
+            const searchLine = '';
         }
 
     }
