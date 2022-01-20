@@ -33,10 +33,10 @@
         </header>
 
         <main>
-            <showcase :list="filteredGoods" v-on:get-buy="getBuy"></showcase>
+            <showcase :list="filteredGoods"></showcase>
 
         </main>
-        <cart v-if="isCartVisible" :list="cart" v-on:cart-close="onCartOpen" v-on:get-del="getDel"></cart>
+        <cart v-if="isCartVisible" :list="cart" v-on:cart-close="onCartOpen" ></cart>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js">
     </script>

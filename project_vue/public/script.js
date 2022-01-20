@@ -21,33 +21,33 @@ new Vue({
             this.searchLine = '';
         },
 
-        getBuy() {
-            console.log('click add');
-            fetch(`${API_URL}/cart`, {
-                    method: 'POST',
-                    headers: {
-                        "Content-Type": 'application/json'
-                    },
-                    body: JSON.stringify(this.good)
-                })
-                .then((data) => {
-                    this.cart.push(data);
-                })
-        },
+        // getBuy() {
+        //     console.log('click add');
+        //     fetch(`${API_URL}/cart`, {
+        //             method: 'POST',
+        //             headers: {
+        //                 "Content-Type": 'application/json'
+        //             },
+        //             body: JSON.stringify(this.good)
+        //         })
+        //         .then((data) => {
+        //             this.cart.push(data);
+        //         })
+        // },
 
-        getDel() {
-            console.log('click del');
-            fetch(`${API_URL}/cart`, {
-                    method: 'DELETE',
-                    headers: {
-                        "Content-Type": 'application/json'
-                    },
-                    body: JSON.stringify(this.good)
-                })
-                .then((data) => {
-                    this.cart.pop(data);
-                })
-        }
+        // getDel() {
+        //     console.log('click del');
+        //     fetch(`${API_URL}/cart`, {
+        //             method: 'DELETE',
+        //             headers: {
+        //                 "Content-Type": 'application/json'
+        //             },
+        //             body: JSON.stringify(this.good)
+        //         })
+        //         .then((data) => {
+        //             this.cart.pop(data);
+        //         })
+        // }
 
     },
     mounted() {
