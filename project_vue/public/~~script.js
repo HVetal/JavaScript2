@@ -1,5 +1,6 @@
 "use strict"
 
+// const API_URL = 'http://localhost:3000/api/v1'
 // const {
 //   response
 // } = require("express");
@@ -123,7 +124,18 @@ class Cart {
     this.list = [];
 
     this.view = new CartView('.popupBasket');
+    // this.view.setRemoveClassHandler(this.remove.bind(this));
   }
+
+  //fetchGoods() {
+  // fetch('${API_URL}/cart')
+  //   .then((res) => {
+  //     return res.json();
+  //   })
+  //   .then((data) => {
+  //     data.map((item) => this.add(new Good(item));
+
+  //   })
 
   open() {
     this.view.render(this.list);
@@ -248,6 +260,27 @@ class Cart {
     const idx = this.list.findIndex((stack) => stack.getGoodId() == id)
 
     if (idx >= 0) {
+
+
+      // fetch(`${API_URL}/cart`, {
+      //     method: "DELETE",
+      //     headers: {
+      //       "Content-Type": 'application/json'
+      //     },
+      //     body: JSON.stringify(this.list[idx].getGood());
+      //   })
+      //   .then((res) => {
+      //     
+      //   this.list[idx].remove()
+
+      // if (this.list[idx].getCount() <= 0) {
+      //   this.list.splice(idx, 1)
+      //     }
+      // this.view.render(this.list);
+      //   })
+      // }
+
+
       this.list[idx].remove()
 
       if (this.list[idx].getCount() <= 0) {
@@ -265,11 +298,12 @@ class Showcase {
     this.cart = cart;
     this.view = new ShowcaseView('.goods-list');
 
-
     this.searchInput = document.querySelector('#search-input');
     this.searchButton = document.querySelector('#search-btn');
 
     this.searchButton.addEventListener('click', this.filter.bind(this));
+
+    // this.view.setBuyClickHandler(this.addToCart.bind(this));
   }
 
   filter() {
@@ -299,6 +333,16 @@ class Showcase {
   }
 
   fetchGoods() {
+    // fetch('${API_URL}/showcase')
+    //   .then((res) => {
+    //     return res.json();
+    //   })
+    //   .then((data) => {
+    //     this.list = data.map((item) => new Good(item));
+    //     this.filtered = this.list;
+    //     this.view.render(this.filtered);
+    //   })
+
     return new Promise((resolve, reject) => {
         send(reject, resolve, `${API_URL}catalogData.json`);
       })
@@ -318,6 +362,18 @@ class Showcase {
     const idx = this.list.findIndex((good) => id == good.id)
 
     if (idx >= 0) {
+      // fetch(`${API_URL}/cart`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": 'application/json'
+      //     },
+      //     body: JSON.stringify(this.list[idx]);
+      //   })
+      //   .then((res) => {
+      //     if (res.status === 201) {
+      //       this.cart.add(this.list[idx])
+      //     }
+      //   })
       this.cart.add(this.list[idx])
     }
   }
@@ -327,9 +383,22 @@ class ShowcaseView {
   constructor(containerSelector) {
     this.container = document.querySelector(containerSelector);
   }
+
+  // setBuyClickHandler(callback) {
+  //   this.container.addEventListener('click', (e) => {
+  //     if (e.target.tagName === "BUTTON") {
+  //       const id = e.target.dataset.id;
+
+  //       callback(id);
+  //     }
+  //   })
+  // }
+
   render(list) {
     this.container.textContent = '';
     const template = list.map((good) => `<div class="goods-item"><h3>${good.getTitle()}</h3><p>${good.getPrice()}</p><button class="addToCart">Add to Cart</button><button class="deleteFromCart">Delete from Cart</button></div>`).join('');
+
+    // const template = list.map((good) => `<div class="goods-item"><h3>${good.getTitle()}</h3><p>${good.getPrice()}</p><button data-id="${good.id}">Купить</button>`).join('');
 
     this.container.innerHTML = template;
   }
@@ -352,11 +421,23 @@ class CartView {
   close() {
     this.container.style.display = 'none';
   }
+
+  // setRemoveClickHandler(callback) {
+  //   this.container.addEventListener('click', (e) => {
+  //     if (e.target.tagName === "BUTTON") {
+  //       const id = e.target.dataset.id;
+
+  //       callback(id);
+  //     }
+  //   })
+  // }
   render(list) {
     let sum = 0;
     this.listContainer.textContent = '';
     const template = list.map((good) => `<div class="ProductMarkup"><div>${good.getTitle()}</div><div>${good.getCount()}</div><div>${good.getPrice()}</div><div>${good.getPrice() * good.getCount()} p.</div></div>`).join('');
     const summa = list.map((good) => sum += good.getPrice() * good.getCount());
+    // const template = list.map((good) => `<div class="goods-item"><h3>${good.getTitle()}</h3><p>${good.getPrice()}</p><button data-id="${good.id}">Удалить</button>`).join('');
+
 
     this.listContainer.innerHTML = template;
     document.querySelector('.basketTotalValue').textContent = sum;
