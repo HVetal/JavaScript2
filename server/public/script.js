@@ -124,7 +124,7 @@ class Cart {
     this.list = [];
 
     this.view = new CartView('.modal');
-    this.view.setRemoveClassHandler(this.remove.bind(this));
+    this.view.setRemoveClickHandler(this.remove.bind(this));
   }
 
   fetchGoods() {
@@ -279,6 +279,9 @@ class Cart {
       this.view.render(this.list);
         })
       }
+      this.view.render(this.list);
+    }
+  }
 
 
 //       this.list[idx].remove()
@@ -436,7 +439,7 @@ class CartView {
     this.listContainer.textContent = '';
     // const template = list.map((good) => `<div class="ProductMarkup"><div>${good.getTitle()}</div><div>${good.getCount()}</div><div>${good.getPrice()}</div><div>${good.getPrice() * good.getCount()} p.</div></div>`).join('');
     // const summa = list.map((good) => sum += good.getPrice() * good.getCount());
-    const template = list.map((good) => `<div class="goods-item"><h3>${good.getTitle()}</h3><p>${good.getPrice()}</p><button data-id="${good.id}">Удалить</button>`).join('');
+    const template = list.map((good) => `<div class="goods-item"><h3>${good.getTitle()} x${good.getCount()}</h3><p>${good.getPrice()}</p><button data-id="${good.id}">Удалить</button></div>`).join('');
 
 
     this.listContainer.innerHTML = template;
@@ -451,8 +454,8 @@ let resultAdd;
 const cart = new Cart();
 const showcase = new Showcase(cart);
 //const delbtns = document.querySelectorAll('.deleteFromCart');
-// const cartBtn = document.querySelector('.cartIcon');
-// cartBtn.addEventListener('click', cart.open.bind(cart));
+const cartBtn = document.querySelector('.cartIcon');
+cartBtn.addEventListener('click', cart.open.bind(cart));
 
 // Загрузка витрины с сервера
 const promise = showcase.fetchGoods();
@@ -539,6 +542,6 @@ promise.then(() => {
 
     });
   })
-  // .catch((err) => {
-  //   console.log(err)
-  // })
+  .catch((err) => {
+    console.log(err)
+  })

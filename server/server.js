@@ -38,14 +38,10 @@ app.post('/api/v1/cart', (req, res) => {
             const cart = JSON.parse(data);
             cart.push(req.body);
             fs.writeFile(cart_path, JSON.stringify(cart), 'utf-8', (err, data) => {
-                if (!err) {
                     res.sendStatus(201);
-                } else {
-                    res.sendStatus(500);
-                }
-            })
-        } else {
-            res.status(500).send(err);
+                })
+             } else {
+               res.status(500).send(err);
         }
     })
 });
