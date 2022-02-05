@@ -4,7 +4,7 @@ body {
 
 header {
     display: flex;
-    justify-content: end;
+    justify-content: center;
     align-items: center;
     background-color: #000;
     height: 50px;
@@ -21,7 +21,7 @@ header {
 
 .goods-list {
     display: flex;
-    justify-content: space-around;
+    justify-content: center;
     flex-wrap: wrap;
 }
 
@@ -116,5 +116,5 @@ header {
 .cart-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: left;
 }

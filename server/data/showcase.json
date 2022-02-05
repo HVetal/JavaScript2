@@ -1,16 +1,21 @@
 [{
         "id": 1,
         "title": "iPhone",
-        "price": 300
+        "price": 300,
+        "count": 1
     },
     {
         "id": 2,
         "title": "Samsung",
-        "price": 200
+        "price": 200,
+        "count": 1
+
     },
     {
         "id": 3,
         "title": "Xiaomi",
-        "price": 100
+        "price": 100,
+        "count": 1
+
     }
 ]
