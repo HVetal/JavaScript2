@@ -1,0 +1,184 @@
+.footer {
+
+    &__subscribe {
+        max-width: 1600px;
+        background-image: url(../img/subscribe.jpg);
+        height: 448px;
+        background-repeat: no-repeat;
+        margin: 0 auto;
+
+        @include tablet {
+            height: 614px;
+            background-size: cover;
+        }
+    }
+
+    &__subscribe-box {
+        display: flex;
+        justify-content: space-evenly;
+
+        @include tablet {
+            flex-direction: column;
+            align-items: center;
+        }
+    }
+
+    &__subscribe-comment {
+        text-align: center;
+        padding: 86px 0 126px 0;
+
+        @include tablet {
+            padding: 53px 0 48px 0;
+        }
+    }
+
+    &__subscribe-text {
+        width: 360px;
+        @include font(20px, 24px);
+        text-align: center;
+        color: #222224;
+        margin-top: 40px;
+    }
+
+    &__letter_subscribe {
+        @include font(24px, 40px, 700);
+        display: block;
+    }
+
+    &__subscribe-sendform {
+        margin-top: 150px;
+
+        @include tablet {
+            margin: 0 0 140px 0;
+        }
+    }
+
+    &__subscribe-sendform-text {
+        @include font(18px, 28px);
+        text-align: center;
+        color: #222224;
+        text-transform: uppercase;
+        margin-bottom: 32px;
+    }
+
+    &__subscribe-text-italic {
+        font-style: italic;
+    }
+
+    &__subscribe-form {
+        display: flex;
+    }
+
+    &__subscribe-input {
+        height: 49px;
+        width: 256px;
+        padding-left: 20px;
+        background: #E1E1E1;
+        border: none;
+        border-radius: 20px 0 0 20px;
+        @include font(14px, 17px);
+        color: #222224;
+        opacity: 0.67;
+
+        &:focus {
+            outline: 2px solid $grey;
+        }
+
+        &:hover {
+            outline: 1px solid $black;
+        }
+    }
+
+    &__subscribe-btn {
+        background: #E05C6E;
+        color: #fff;
+        @include font(14px, 17px);
+        border: none;
+        border-radius: 0 20px 20px 0;
+        height: 49px;
+        width: 100px;
+
+        &:focus {
+            outline: 2px solid $grey;
+        }
+
+        &:hover {
+            outline: 1px solid $black;
+        }
+
+        &:active {
+            opacity: 0.5;
+        }
+    }
+
+    &__endline {
+        height: 79px;
+        background-color: #222224;
+
+        @include mobile {
+            display: flex;
+            align-items: center;
+            height: 143px;
+        }
+    }
+
+    &__endline-box {
+        display: flex;
+        justify-content: space-between;
+
+        @include mobile {
+            flex-direction: column-reverse;
+            align-items: center;
+        }
+    }
+
+    &__endline-list {
+        display: flex;
+    }
+
+    &__endline-text {
+        margin-top: 30px;
+        @include font(16px, 19px);
+        color: #FBFBFB;
+    }
+
+    &__endline-item {
+        width: 32px;
+        height: 32px;
+        background-color: #fff;
+        margin: 24px 7px 0 0;
+        position: relative;
+        display: inline-block;
+
+        &:hover {
+            background-color: $pink;
+        }
+
+        &:focus-within {
+            background-color: $grey;
+        }
+
+        &:active {
+            opacity: 0.5;
+        }
+    }
+
+    &__endline-item-img {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        fill: #000;
+        display: block;
+    }
+
+    &__insta_img {
+        background-color: $pink;
+        fill: #fff;
+
+        &:hover {
+            background: #fff;
+            fill: $pink;
+        }
+    }
+}

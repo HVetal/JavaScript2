@@ -1,0 +1,104 @@
+.cart-button {
+    width: 100px;
+    height: 25px;
+    background-color: #fff;
+    border: 1px solid #000;
+    border-radius: 5px;
+    margin-right: 20px;
+}
+
+.goods-list {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.goods-item {
+    display: flex;
+    // flex-direction: column;
+    // justify-content: end;
+    width: 652px;
+    height: 306px;
+    filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
+
+    // border: 1px solid #ccc;
+    // border-radius: 5px;
+    margin: 20px;
+    padding: 0;
+    text-align: center;
+}
+
+.goods-item p {
+    margin: 0;
+}
+
+.cartIconWrap {
+    position: relative;
+}
+
+.basketCount {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    color: white;
+    background: #f16d7f;
+    border-radius: 50%;
+    position: absolute;
+    text-align: center;
+    right: -8px;
+    top: 8px;
+    font-size: 12px;
+    line-height: 19px;
+}
+
+.rightHeader {
+    width: 100px;
+    /* align: center; */
+}
+
+.popupBasket {
+    position: absolute;
+    font-size: 14px;
+    padding: 10px;
+    border: 1px solid #ebebeb;
+    border-radius: 3px;
+    background-color: #fff;
+    width: 600px;
+    min-height: 70px;
+    top: 10px;
+    right: 0;
+    z-index: 3;
+    display: none;
+}
+
+.ProductMarkup {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+    font-size: 14px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ebebeb;
+    padding-bottom: 10px;
+}
+
+.basketHeader {
+    font-weight: bold;
+}
+
+.basketTotal {
+    font-weight: bold;
+    text-align: right;
+}
+
+.deleteFromCart {
+    margin-top: 10px;
+    /* display: none; */
+}
+
+.unvisible {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
