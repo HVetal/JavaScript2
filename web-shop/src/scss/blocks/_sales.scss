@@ -1,0 +1,102 @@
+.sales {
+
+    &__list {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+    &__item {
+        width: 31%;
+        min-height: 260px;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        @include tablet {
+            min-height: 168px;
+        }
+
+        @include mobile {
+            width: 100%;
+            min-height: 247px;
+        }
+    }
+
+    &__item-man {
+        background-image: url(../img/siles_item_man.jpg);
+        margin: 63px 30px 30px 0;
+
+        @include tablet {
+            margin: 19px 20px 20px 0;
+            background-position: right;
+        }
+
+        @include mobile {
+            margin: 64px 16px 32px 16px;
+            background-position: center;
+        }
+    }
+
+    &__item-woman {
+        background-image: url(../img/siles_item_woman.jpg);
+        margin: 63px 30px 30px 0;
+
+        @include tablet {
+            margin: 19px 20px 20px 0;
+            background-position: center;
+        }
+
+        @include mobile {
+            margin: 0 16px 32px 16px;
+            background-position: center;
+        }
+    }
+
+    &__item-kids {
+        background-image: url(../img/siles_item_kids.jpg);
+        margin: 63px 0 30px 0;
+
+        @include tablet {
+            margin: 19px 0 20px 0;
+            background-position: left;
+        }
+
+        @include mobile {
+            margin: 0 16px 32px 16px;
+            background-position: center;
+        }
+    }
+
+    &__item-accessories {
+        width: 100%;
+        min-height: 180px;
+        background-image: url(../img/siles_item_accessories.jpg);
+        margin-bottom: 97px;
+
+        @include tablet {
+            min-height: 116px;
+            margin-bottom: 188px;
+            background-position: center;
+        }
+
+        @include mobile {
+            min-height: 111px;
+            margin: 0 16px 64px 16px;
+        }
+    }
+
+    &__item-text {
+        @include font(16px, 19px);
+        text-transform: uppercase;
+        color: #fff;
+    }
+
+    &__item-title {
+        @include font(24px, 29px, 700);
+        color: $pink;
+        text-transform: uppercase;
+    }
+}

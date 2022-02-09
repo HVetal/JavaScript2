@@ -1,0 +1,127 @@
+.product_discription {
+    height: 601px;
+    position: relative;
+
+    &__wrp {
+        width: 1141px;
+        background-color: #fff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid #EAEAEA;
+        position: absolute;
+        top: -65px;
+    }
+
+    &__title {
+        color: $pink;
+        @include font(14px, 17px, 300);
+        text-transform: uppercase;
+        margin: 65px 0 12px 0;
+    }
+
+    &__rectangle {
+        background-color: $pink;
+        width: 63px;
+        height: 3px;
+    }
+
+    &__name {
+        @include font (18px, 22px, 300);
+        color: $black;
+        text-transform: uppercase;
+        margin: 12px 0 48px 0;
+    }
+
+    &__text {
+        width: 555px;
+        @include font (14px, 17px, 300);
+        text-align: center;
+        color: #5E5E5E;
+    }
+
+    &__price {
+        @include font (24px, 29px, 300);
+        color: $pink;
+        margin: 32px 0 65px 0;
+    }
+
+    &__hr {
+        width: 641px;
+        border: 1px solid #EAEAEA;
+        margin-bottom: 65px;
+    }
+
+    &__dropdown {
+        display: flex;
+        justify-content: center;
+    }
+
+    &__dropdown-btn {
+        background-color: transparent;
+        color: #6F6E6E;
+        border: none;
+        @include font (14px, 17px);
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.2);
+        }
+
+        &:focus {
+            background-color: #fff;
+            outline: #6F6E6E;
+            color: #6F6E6E;
+            border: none;
+            box-shadow: none;
+        }
+
+        &:active {
+            background-color: #b8b6b6;
+            color: #fff;
+            border: none;
+            outline: none;
+        }
+
+        &::after {
+            background-image: url(../img/dropdown.svg);
+        }
+    }
+
+    &__button {
+        position: relative;
+        @include font(16px, 19px);
+        color: $pink;
+        padding: 14px 56px 13px 72px;
+        margin: 49px 0 65px 0;
+        border: 1px solid $pink;
+        background-color: transparent;
+
+        &::before {
+            background-image: url(../img/basket_btn_pink.svg);
+            content: '';
+            width: 26px;
+            height: 24px;
+            color: $pink;
+            position: absolute;
+            left: 23px;
+            top: 14px;
+        }
+
+        &:hover {
+            background-color: #f8dcdc;
+        }
+
+        &:focus {
+            border: 1px solid $grey;
+        }
+
+        &:active {
+            background-color: $pink;
+            color: #fff;
+        }
+    }
+
+    &__featured {
+        margin-top: 128px;
+    }
+}
